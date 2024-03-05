@@ -7,12 +7,13 @@ import { ResponsiveBarChart } from "../../components/dashboard/ResponsiveBarChar
 import { TabView } from "../../components/dashboard/TabView";
 import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
+import { ResponsiveLineChart } from "../../components/dashboard/ResponsiveLineChart";
 
 const filters: CrudFilter[] = [
   {
     field: "start",
     operator: "eq",
-    value: dayjs()?.subtract(7, "days")?.startOf("day"),
+    value: dayjs()?.subtract(30, "days")?.startOf("day"),
   },
   {
     field: "end",
@@ -50,11 +51,46 @@ export const Dashboard: React.FC = () => {
     }, [d]);
   };
 
+  const memoizedCustomData: any = useMemo(() => {
+    return dailyRevenue?.data?.data?.map((item: IChartDatum) => ({
+      date: new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        year: "numeric",
+        day: "numeric",
+      }).format(new Date(item.date)),
+      revenue: item?.value,
+      orders: Number(item?.value) < 1000 ? Number(item?.value)+100 : Number(item?.value)-100,
+    }));
+  }, [dailyRevenue]);
+
   const memoizedRevenueData = useMemoizedChartData(dailyRevenue);
   const memoizedOrdersData = useMemoizedChartData(dailyOrders);
   const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
 
   const tabs: TTab[] = [
+    {
+      id: 0,
+      label: "Daily Revenue & Orders",
+      content: (
+        <ResponsiveLineChart
+          lines={[
+            {
+              label: "Revenue",
+              key: "revenue",
+              color: "rgb(54, 162, 235)",
+              dash: false
+            },
+            {
+              label: "Orders",
+              key: "orders",
+              color: "rgba(54, 162, 235, 0.2)",
+              dash: true
+            },
+          ]}
+          data={memoizedCustomData}
+        />
+      ),
+    },
     {
       id: 1,
       label: "Daily Revenue",
