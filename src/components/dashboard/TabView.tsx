@@ -56,9 +56,13 @@ export const TabView = ({ tabs }: TTabViewProps) => {
       </div>
       <div className="mx-auto">
         {showChart && tabs?.map((tab: TTab) => (
-          <TabPanel key={tab.id} isActive={tab.id === activeTab}>
-            {tab.content}
-          </TabPanel>
+          <TabPanel
+            key={tab.id}
+            isActive={tab.id === activeTab}
+            lines={tab.lines}
+            data={tab.data}
+            formatValue={tab.formatValue}
+          />
         ))}
       </div>
     </div>

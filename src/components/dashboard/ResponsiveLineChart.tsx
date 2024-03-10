@@ -8,16 +8,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { IChartDatum, TTab } from "../../interfaces";
+import { IChartDatum, TLine, TTab } from "../../interfaces";
 import { LineChartTooltip } from "./LineChartTooltip";
 
 type TResponsiveLineChartProps = {
-  lines: {
-    label: string
-    key: string
-    color: string
-    dash: boolean
-  }[];
+  lines: TLine[];
   data: IChartDatum[];
   formatValue: TTab["formatValue"];
 };

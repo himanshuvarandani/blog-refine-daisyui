@@ -58,8 +58,16 @@ export type TTab = {
   id: number;
   label: string;
   desc: string;
-  content: JSX.Element;
+  data: any;
+  lines: TLine[];
   total: number;
   trend: number;
   formatValue: (value: number | string) => typeof value;
+};
+
+export type TLine = {
+  label: string
+  key: string
+  color: string
+  dash: boolean
 };
