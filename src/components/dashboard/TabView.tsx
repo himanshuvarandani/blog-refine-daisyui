@@ -23,11 +23,17 @@ export const TabView = ({ tabs }: TTabViewProps) => {
           <TabItem
             key={tab.id}
             label={tab.label}
+            desc={tab.desc}
             total={tab.total}
             trend={tab.trend}
             formatTotal={tab.formatTotal}
             isActive={tab.id === activeTab}
-            clickHandler={() => setActiveTab(tab.id)}
+            setActiveTab={() => setActiveTab(tab.id)}
+            hiddenTabs={tabs.filter(t => !viewTabs.includes(t))}
+            setViewTabs={(newTab: TTab) => {
+              setViewTabs(prev => prev.map(t => t.id === tab.id ? newTab : t))
+              setActiveTab(newTab.id)
+            }}
           />
         ))}
       </div>

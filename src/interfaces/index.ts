@@ -57,6 +57,7 @@ export interface ICategory {
 export type TTab = {
   id: number;
   label: string;
+  desc: string;
   content: JSX.Element;
   total: number;
   trend: number;
