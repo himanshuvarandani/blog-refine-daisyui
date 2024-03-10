@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { CrudFilter, useList } from "@refinedev/core";
 import dayjs from "dayjs";
 import { TabView } from "../../components/dashboard/TabView";
 import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
 import { ResponsiveLineChart } from "../../components/dashboard/ResponsiveLineChart";
+import { Loading } from "../../components/dashboard/Loading";
 
 const filters: CrudFilter[] = [
   {
@@ -20,7 +21,7 @@ const filters: CrudFilter[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const { data: dailyRevenue } = useList<IChartDatum>({
+  const { data: dailyRevenue, isLoading } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
   });
@@ -155,7 +156,11 @@ export const Dashboard: React.FC = () => {
 
   return (
     <>
-      <TabView tabs={tabs} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <TabView tabs={tabs} />
+      )}
       <RecentSales />
     </>
   );
