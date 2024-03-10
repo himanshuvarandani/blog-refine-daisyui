@@ -58,4 +58,7 @@ export type TTab = {
   id: number;
   label: string;
   content: JSX.Element;
+  total: number;
+  trend: number;
+  formatTotal?: (value: number | string) => typeof value;
 };

@@ -1,9 +1,6 @@
 import React, { useMemo } from "react";
 import { CrudFilter, useList } from "@refinedev/core";
 import dayjs from "dayjs";
-import Stats from "../../components/dashboard/Stats";
-import { ResponsiveAreaChart } from "../../components/dashboard/ResponsiveAreaChart";
-import { ResponsiveBarChart } from "../../components/dashboard/ResponsiveBarChart";
 import { TabView } from "../../components/dashboard/TabView";
 import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
@@ -41,107 +38,107 @@ export const Dashboard: React.FC = () => {
   const useMemoizedChartData = (d: any) => {
     return useMemo(() => {
       return d?.data?.data?.map((item: IChartDatum) => ({
-        date: new Intl.DateTimeFormat("en-US", {
+          date: new Intl.DateTimeFormat("en-US", {
           month: "short",
           year: "numeric",
           day: "numeric",
         }).format(new Date(item.date)),
-        value: item?.value,
+        value1: item?.value,
+        value2: Number(item?.value) < 1000 ? Number(item?.value)+100 : Number(item?.value)-100,
       }));
     }, [d]);
   };
-
-  const memoizedCustomData: any = useMemo(() => {
-    return dailyRevenue?.data?.data?.map((item: IChartDatum) => ({
-      date: new Intl.DateTimeFormat("en-US", {
-        month: "short",
-        year: "numeric",
-        day: "numeric",
-      }).format(new Date(item.date)),
-      revenue: item?.value,
-      orders: Number(item?.value) < 1000 ? Number(item?.value)+100 : Number(item?.value)-100,
-    }));
-  }, [dailyRevenue]);
 
   const memoizedRevenueData = useMemoizedChartData(dailyRevenue);
   const memoizedOrdersData = useMemoizedChartData(dailyOrders);
   const memoizedNewCustomersData = useMemoizedChartData(newCustomers);
 
-  const tabs: TTab[] = [
+  const lines = [
     {
-      id: 0,
-      label: "Daily Revenue & Orders",
-      content: (
-        <ResponsiveLineChart
-          lines={[
-            {
-              label: "Revenue",
-              key: "revenue",
-              color: "rgb(54, 162, 235)",
-              dash: false
-            },
-            {
-              label: "Orders",
-              key: "orders",
-              color: "rgba(54, 162, 235, 0.2)",
-              dash: true
-            },
-          ]}
-          data={memoizedCustomData}
-        />
-      ),
+      label: "Value 1",
+      key: "value1",
+      color: "rgb(54, 162, 235)",
+      dash: false
     },
     {
+      label: "Value 2",
+      key: "value2",
+      color: "rgba(54, 162, 235, 0.2)",
+      dash: true
+    },
+  ]
+
+  const tabs: TTab[] = [
+    {
       id: 1,
-      label: "Daily Revenue",
-      content: (
-        <ResponsiveAreaChart
-          kpi="Daily revenue"
-          data={memoizedRevenueData}
-          colors={{
-            stroke: "rgb(54, 162, 235)",
-            fill: "rgba(54, 162, 235, 0.2)",
-          }}
-        />
-      ),
+      label: "Online Store Sessions",
+      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      total: dailyRevenue?.data?.total,
+      trend: dailyRevenue?.data?.trend,
+      formatTotal: (value: number | string) => value,
     },
     {
       id: 2,
-      label: "Daily Orders",
-      content: (
-        <ResponsiveBarChart
-          kpi="Daily orders"
-          data={memoizedOrdersData}
-          colors={{
-            stroke: "rgb(255, 159, 64)",
-            fill: "rgba(255, 159, 64, 0.7)",
-          }}
-        />
-      ),
+      label: "Net Return Value",
+      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      total: dailyOrders?.data?.total,
+      trend: dailyOrders?.data?.trend,
+      formatTotal: (value: number | string) => 
+        Number(value) > 0 ? `$ ${value}` : `- $ ${value}`,
     },
     {
       id: 3,
-      label: "New Customers",
-      content: (
-        <ResponsiveAreaChart
-          kpi="New customers"
-          data={memoizedNewCustomersData}
-          colors={{
-            stroke: "rgb(76, 175, 80)",
-            fill: "rgba(54, 162, 235, 0.2)",
-          }}
-        />
-      ),
+      label: "Total Orders",
+      content: <ResponsiveLineChart lines={lines} data={memoizedNewCustomersData} />,
+      total: newCustomers?.data?.total,
+      trend: newCustomers?.data?.trend,
+      formatTotal: (value: number | string) => value,
+    },
+    {
+      id: 4,
+      label: "Conversion Rate",
+      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      total: dailyRevenue?.data?.total,
+      trend: dailyRevenue?.data?.trend,
+      formatTotal: (value: number | string) => `${value}%`,
+    },
+    {
+      id: 5,
+      label: "Average Order Value",
+      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      total: dailyOrders?.data?.total,
+      trend: dailyOrders?.data?.trend,
+      formatTotal: (value: number | string) => `$ ${value}`,
+    },
+    {
+      id: 6,
+      label: "Gross Sales",
+      content: <ResponsiveLineChart lines={lines} data={memoizedNewCustomersData} />,
+      total: newCustomers?.data?.total,
+      trend: newCustomers?.data?.trend,
+      formatTotal: (value: number | string) => 
+        Number(value) > 0 ? `$ ${value}` : `- $ ${value}`,
+    },
+    {
+      id: 7,
+      label: "Store Search Conversion",
+      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      total: dailyRevenue?.data?.total,
+      trend: dailyRevenue?.data?.trend,
+      formatTotal: (value: number | string) => value,
+    },
+    {
+      id: 8,
+      label: "Return Rate",
+      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      total: dailyOrders?.data?.total,
+      trend: dailyOrders?.data?.trend,
+      formatTotal: (value: number | string) => `${value}%`,
     },
   ];
 
   return (
     <>
-      <Stats
-        dailyRevenue={dailyRevenue}
-        dailyOrders={dailyOrders}
-        newCustomers={newCustomers}
-      />
       <TabView tabs={tabs} />
       <RecentSales />
     </>
