@@ -29,7 +29,7 @@ export const TabView = ({ tabs }: TTabViewProps) => {
               desc={tab.desc}
               total={tab.total}
               trend={tab.trend}
-              formatTotal={tab.formatTotal}
+              formatValue={tab.formatValue}
               isActive={tab.id === activeTab}
               setActiveTab={() => setActiveTab(tab.id)}
               hiddenTabs={tabs.filter(t => !viewTabs.includes(t))}

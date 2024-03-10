@@ -8,7 +8,7 @@ type TTabItem = {
   desc: string;
   total: number;
   trend: number;
-  formatTotal?: (value: number | string) => typeof value;
+  formatValue?: (value: number | string) => typeof value;
   isActive: boolean;
   setActiveTab: () => void;
   hiddenTabs: TTab[];
@@ -20,7 +20,7 @@ export const TabItem = ({
   desc,
   total,
   trend,
-  formatTotal = (value) => value,
+  formatValue = (value) => value,
   isActive,
   setActiveTab,
   hiddenTabs,
@@ -76,7 +76,7 @@ export const TabItem = ({
       </div>
 
       <div className="flex items-center space-x-2 my-2">
-        <p className="stat-value text-3xl">{formatTotal(total ?? "...")}</p>
+        <p className="stat-value text-3xl">{formatValue(total ?? "...")}</p>
         {percent == 0 ? null : (
           <>
             {total > trend ? (

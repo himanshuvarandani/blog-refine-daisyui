@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { IChartDatum } from "../../interfaces";
+import { IChartDatum, TTab } from "../../interfaces";
 import { LineChartTooltip } from "./LineChartTooltip";
 
 type TResponsiveLineChartProps = {
@@ -19,11 +19,13 @@ type TResponsiveLineChartProps = {
     dash: boolean
   }[];
   data: IChartDatum[];
+  formatValue: TTab["formatValue"];
 };
 
 export const ResponsiveLineChart = ({
   lines,
   data,
+  formatValue,
 }: TResponsiveLineChartProps) => {
   return (
     <ResponsiveContainer height={400}>
@@ -62,7 +64,7 @@ export const ResponsiveLineChart = ({
           domain={[0, "auto"]}
         />
         <Tooltip
-          content={<LineChartTooltip lines={lines} />}
+          content={<LineChartTooltip lines={lines} formatValue={formatValue} />}
           wrapperStyle={{
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             border: "1 solid #fff",

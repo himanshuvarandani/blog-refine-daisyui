@@ -73,75 +73,127 @@ export const Dashboard: React.FC = () => {
       id: 1,
       label: "Online Store Sessions",
       desc: "Your online stores traffic volume, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedRevenueData}
+          formatValue={(value: number | string) => value}
+        />
+      ),
       total: dailyRevenue?.data?.total,
       trend: dailyRevenue?.data?.trend,
-      formatTotal: (value: number | string) => value,
+      formatValue: (value: number | string) => value,
     },
     {
       id: 2,
       label: "Net Return Value",
       desc: "Your online store net return value, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedOrdersData}
+          formatValue={(value: number | string) =>
+            Number(value) > 0 ? `$ ${value}` : `- $ ${value}`
+          }
+        />
+      ),
       total: dailyOrders?.data?.total,
       trend: dailyOrders?.data?.trend,
-      formatTotal: (value: number | string) => 
+      formatValue: (value: number | string) => 
         Number(value) > 0 ? `$ ${value}` : `- $ ${value}`,
     },
     {
       id: 3,
       label: "Total Orders",
       desc: "Your online stores total orders, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedNewCustomersData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedNewCustomersData}
+          formatValue={(value: number | string) => value}
+        />
+      ),
       total: newCustomers?.data?.total,
       trend: newCustomers?.data?.trend,
-      formatTotal: (value: number | string) => value,
+      formatValue: (value: number | string) => value,
     },
     {
       id: 4,
       label: "Conversion Rate",
       desc: "Your online stores conversion rate, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedRevenueData}
+          formatValue={(value: number | string) => `${value}%`}
+        />
+      ),
       total: dailyRevenue?.data?.total,
       trend: dailyRevenue?.data?.trend,
-      formatTotal: (value: number | string) => `${value}%`,
+      formatValue: (value: number | string) => `${value}%`,
     },
     {
       id: 5,
       label: "Average Order Value",
       desc: "Your online stores average order value, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedOrdersData}
+          formatValue={(value: number | string) => `$ ${value}`}
+        />
+      ),
       total: dailyOrders?.data?.total,
       trend: dailyOrders?.data?.trend,
-      formatTotal: (value: number | string) => `$ ${value}`,
+      formatValue: (value: number | string) => `$ ${value}`,
     },
     {
       id: 6,
       label: "Gross Sales",
       desc: "Your online stores gross sales, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedNewCustomersData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedNewCustomersData}
+          formatValue={(value: number | string) =>
+            Number(value) > 0 ? `$ ${value}` : `- $ ${value}`
+          }
+        />
+      ),
       total: newCustomers?.data?.total,
       trend: newCustomers?.data?.trend,
-      formatTotal: (value: number | string) => 
+      formatValue: (value: number | string) => 
         Number(value) > 0 ? `$ ${value}` : `- $ ${value}`,
     },
     {
       id: 7,
       label: "Store Search Conversion",
       desc: "Your online stores search conversion, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedRevenueData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedRevenueData}
+          formatValue={(value: number | string) => value}
+        />
+      ),
       total: dailyRevenue?.data?.total,
       trend: dailyRevenue?.data?.trend,
-      formatTotal: (value: number | string) => value,
+      formatValue: (value: number | string) => value,
     },
     {
       id: 8,
       label: "Return Rate",
       desc: "Your online stores return rate, shown in sessions.",
-      content: <ResponsiveLineChart lines={lines} data={memoizedOrdersData} />,
+      content: (
+        <ResponsiveLineChart
+          lines={lines}
+          data={memoizedOrdersData}
+          formatValue={(value: number | string) => `${value}%`}
+        />
+      ),
       total: dailyOrders?.data?.total,
       trend: dailyOrders?.data?.trend,
-      formatTotal: (value: number | string) => `${value}%`,
+      formatValue: (value: number | string) => `${value}%`,
     },
   ];
 
