@@ -1,26 +1,31 @@
 import React, { useMemo, useState } from "react";
 import { CrudFilter, useList } from "@refinedev/core";
-import dayjs from "dayjs";
 import { TabView } from "../../components/dashboard/TabView";
 import { RecentSales } from "../../components/dashboard/RecentSales";
 import { IChartDatum, TTab } from "../../interfaces";
-import { ResponsiveLineChart } from "../../components/dashboard/ResponsiveLineChart";
 import { Loading } from "../../components/dashboard/Loading";
 
-const filters: CrudFilter[] = [
-  {
-    field: "start",
-    operator: "eq",
-    value: dayjs()?.subtract(30, "days")?.startOf("day"),
-  },
-  {
-    field: "end",
-    operator: "eq",
-    value: dayjs().startOf("day"),
-  },
-];
-
 export const Dashboard: React.FC = () => {
+  const [startDate, setStartDate] = useState(
+    new Date(new Date().setDate(new Date().getDate() - 30))
+  );
+  const [endDate, setEndDate] = useState(
+    new Date()
+  );
+
+  const filters: CrudFilter[] = [
+    {
+      field: "start",
+      operator: "eq",
+      value: startDate,
+    },
+    {
+      field: "end",
+      operator: "eq",
+      value: endDate,
+    },
+  ];
+
   const { data: dailyRevenue, isLoading } = useList<IChartDatum>({
     resource: "dailyRevenue",
     filters,
@@ -156,6 +161,30 @@ export const Dashboard: React.FC = () => {
 
   return (
     <>
+      <div className="bg-slate-50 border rounded-lg drop-shadow-md p-5 mb-5">
+        <div className="tabs space-x-2">
+          <div className="flex-1 space-y-2">
+            <p className="font-semibold">Start Date</p>
+            <input
+              type="date"
+              className="bg-gray-100 text-sm rounded-lg focus:ring-gray-200 focus:border-gray-200 block w-full md:w-1/2 py-2 px-4"
+              value={startDate.toISOString().substring(0, 10)}
+              onChange={e => setStartDate(new Date(e.target.value))}
+            />
+          </div>
+          <div className="flex-1 space-y-2">
+            <p className="font-semibold">End Date</p>
+            <input
+              type="date"
+              className="bg-gray-100 text-sm rounded-lg focus:ring-gray-200 focus:border-gray-200 block w-full md:w-1/2 py-2 px-4"
+              value={endDate.toISOString().substring(0, 10)}
+              onChange={e => setEndDate(new Date(e.target.value))}
+              max={new Date().toISOString().substring(0, 10)}
+            />
+          </div>
+        </div>
+      </div>
+
       {isLoading ? (
         <Loading />
       ) : (
