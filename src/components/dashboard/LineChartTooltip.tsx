@@ -4,7 +4,7 @@ export const LineChartTooltip = ({
   payload,
   label,
   coordinate,
-  lines, // lines as [{ label, field, color, dash? }]
+  lines, // lines as [{ label, key, color, dash? }]
 }: any) => {
   if (active && payload && payload.length) {
     const dataPoint = payload[0].payload;
@@ -21,7 +21,7 @@ export const LineChartTooltip = ({
       >
         <p className="flex text-xs font-semibold">{label}</p>
         {lines.map((line: any) => (
-          <div className="flex items-center text-xs my-1">
+          <div className="flex items-center text-xs my-1" key={line.key}>
             <hr
               className={`w-4 mr-2 ${line.dash && "border-dashed"}`}
               style={{ borderColor: line.color }}

@@ -72,6 +72,7 @@ export const ResponsiveLineChart = ({
         />
         {lines.map(line => (
           <Line
+            key={line.key}
             type="monotone"
             dataKey={line.key}
             stroke={line.color}
