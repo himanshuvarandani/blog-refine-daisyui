@@ -25,7 +25,7 @@ export const LineChartTooltip = ({
         {lines.map((line: any, index: number) => (
           <div className="flex items-center text-sm space-x-4 my-1" key={line.key}>
             <hr
-              className={`w-4 ${line.dash && "border-dashed"}`}
+              className={`w-4 border-2 ${line.dash && "border-dashed"}`}
               style={{ borderColor: line.color }}
             />
             <p>{line.label}</p>
